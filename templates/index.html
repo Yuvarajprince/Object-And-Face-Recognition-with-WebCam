@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Webcam Object & Face Detection 🌐</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-color: #111; /* Dark background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #eee; /* Light text color */
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em; /* Slightly smaller heading */
+            margin-bottom: 20px;
+            color: #0ff;
+            text-shadow: 0 0 5px #00f, 0 0 10px #0ff;
+        }
+
+        .project-description {
+            width: 60%;
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            color: #ddd;
+        }
+
+        .project-description span {
+            color: #0ff;
+            font-weight: bold;
+        }
+
+        #video-feed {
+            width: 640px;
+            height: 480px;
+            border: 3px solid #0ff; /* Neon border */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2), 0 0 20px rgba(0, 255, 255, 0.1); /* More pronounced glow */
+        }
+
+        .details {
+            text-align: center;
+            margin-top: 30px;
+            color: #ddd;
+        }
+
+        .contact {
+            font-size: 0.9em;
+            margin-top: 10px;
+            color: #aaa;
+        }
+
+        .contact a {
+            color: #0ff;
+            text-decoration: none;
+        }
+
+        /* Animated Symbols (Improved) */
+        .symbols {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1; /* Behind other content */
+            overflow: hidden;
+        }
+
+        .symbol {
+            position: absolute;
+            font-size: 16px; /* Slightly smaller symbols */
+            color: #0f8; /* Greenish neon */
+            white-space: nowrap;
+            animation: falling 15s linear infinite, rotating 7s linear infinite alternate;
+        }
+
+        @keyframes falling {
+            0% { transform: translateY(-100vh); opacity: 0; }
+            10% { opacity: 0.5; } /* Fade in faster */
+            90% { opacity: 0.5; } /* Maintain for longer */
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes rotating {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Distribute symbols more randomly */
+        .symbols .symbol:nth-child(3n+1) { left: 10%; }
+        .symbols .symbol:nth-child(3n+2) { left: 45%; }
+        .symbols .symbol:nth-child(3n+3) { left: 80%; }
+        .symbols .symbol { animation-delay: calc(var(--random) * 1s); }
+        /* Add some random data to the elements */
+        .symbols .symbol::before {
+          content: attr(data-symbol);
+        }
+    </style>
+</head>
+<body>
+    <div class="symbols">
+        <script>
+        const symbols = ['0', '1', '░', '▒', '▓', '█', '$', '#', '@', '&', '%', '*', '+', '-', '=', '<', '>', '/', '\\', '|', '(', ')', '[', ']', '{', '}', '!', '?'];
+        let symbolContainer = document.querySelector(".symbols");
+        for (let i = 0; i < 200; i++) {
+          let symbol = document.createElement('div');
+          symbol.classList.add('symbol');
+          symbol.style.setProperty('--random', Math.random());
+          symbol.style.top = Math.random() * 100 + "vh";
+          symbol.style.left = Math.random() * 100 + "vw";
+          symbol.setAttribute("data-symbol",symbols[Math.floor(Math.random() * symbols.length)]);
+          symbolContainer.appendChild(symbol);
+        }
+        </script>
+    </div>
+    <h1>Real-Time Webcam Object & Face Detection 🌐</h1>
+    <p class="project-description">This web application utilizes your webcam to detect and display objects and faces in real-time. It leverages <span>OpenCV</span> and pre-trained <span>machine learning models</span> for accurate identification.</p>
+
+    <img id="video-feed" src="{{ url_for('video_feed') }}" alt="Webcam Feed">
+
+    <div class="details">
+        Developed by: CHOLLANGI YUVARAJ<br>
+        <span class="contact">Contact: <a href="mailto:yuvarajprince341091@gmail.com">yuvarajprince341091@gmail.com</a></span>
+    </div>
+</body>
+</html>

@@ -8,18 +8,18 @@
         body {
             margin: 0;
             font-family: sans-serif;
-            background-color: #111; /* Dark background */
+            background-color: #111;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #eee; /* Light text color */
+            color: #eee;
             overflow: hidden;
         }
 
         h1 {
             text-align: center;
-            font-size: 3em; /* Slightly smaller heading */
+            font-size: 3em;
             margin-bottom: 20px;
             color: #0ff;
             text-shadow: 0 0 5px #00f, 0 0 10px #0ff;
@@ -41,9 +41,9 @@
         #video-feed {
             width: 640px;
             height: 480px;
-            border: 3px solid #0ff; /* Neon border */
+            border: 3px solid #0ff;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2), 0 0 20px rgba(0, 255, 255, 0.1); /* More pronounced glow */
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2), 0 0 20px rgba(0, 255, 255, 0.1);
         }
 
         .details {
@@ -63,7 +63,6 @@
             text-decoration: none;
         }
 
-        /* Animated Symbols (Improved) */
         .symbols {
             position: absolute;
             top: 0;
@@ -71,22 +70,22 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: -1; /* Behind other content */
+            z-index: -1;
             overflow: hidden;
         }
 
         .symbol {
             position: absolute;
-            font-size: 16px; /* Slightly smaller symbols */
-            color: #0f8; /* Greenish neon */
+            font-size: 16px;
+            color: #0f8;
             white-space: nowrap;
             animation: falling 15s linear infinite, rotating 7s linear infinite alternate;
         }
 
         @keyframes falling {
             0% { transform: translateY(-100vh); opacity: 0; }
-            10% { opacity: 0.5; } /* Fade in faster */
-            90% { opacity: 0.5; } /* Maintain for longer */
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
             100% { transform: translateY(100vh); opacity: 0; }
         }
 
@@ -95,37 +94,56 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Distribute symbols more randomly */
         .symbols .symbol:nth-child(3n+1) { left: 10%; }
         .symbols .symbol:nth-child(3n+2) { left: 45%; }
         .symbols .symbol:nth-child(3n+3) { left: 80%; }
         .symbols .symbol { animation-delay: calc(var(--random) * 1s); }
-        /* Add some random data to the elements */
         .symbols .symbol::before {
-          content: attr(data-symbol);
+            content: attr(data-symbol);
         }
     </style>
 </head>
 <body>
     <div class="symbols">
         <script>
-        const symbols = ['0', '1', '░', '▒', '▓', '█', '$', '#', '@', '&', '%', '*', '+', '-', '=', '<', '>', '/', '\\', '|', '(', ')', '[', ']', '{', '}', '!', '?'];
-        let symbolContainer = document.querySelector(".symbols");
-        for (let i = 0; i < 200; i++) {
-          let symbol = document.createElement('div');
-          symbol.classList.add('symbol');
-          symbol.style.setProperty('--random', Math.random());
-          symbol.style.top = Math.random() * 100 + "vh";
-          symbol.style.left = Math.random() * 100 + "vw";
-          symbol.setAttribute("data-symbol",symbols[Math.floor(Math.random() * symbols.length)]);
-          symbolContainer.appendChild(symbol);
-        }
+            const symbols = ['0', '1', '░', '▒', '▓', '█', '$', '#', '@', '&', '%', '*', '+', '-', '=', '<', '>', '/', '\\', '|', '(', ')', '[', ']', '{', '}', '!', '?'];
+            let symbolContainer = document.querySelector(".symbols");
+            for (let i = 0; i < 200; i++) {
+                let symbol = document.createElement('div');
+                symbol.classList.add('symbol');
+                symbol.style.setProperty('--random', Math.random());
+                symbol.style.top = Math.random() * 100 + "vh";
+                symbol.style.left = Math.random() * 100 + "vw";
+                symbol.setAttribute("data-symbol",symbols[Math.floor(Math.random() * symbols.length)]);
+                symbolContainer.appendChild(symbol);
+            }
         </script>
     </div>
     <h1>Real-Time Webcam Object & Face Detection 🌐</h1>
     <p class="project-description">This web application utilizes your webcam to detect and display objects and faces in real-time. It leverages <span>OpenCV</span> and pre-trained <span>machine learning models</span> for accurate identification.</p>
 
-    <img id="video-feed" src="{{ url_for('video_feed') }}" alt="Webcam Feed">
+    <img id="video-feed" src="{{ url_for('video_feed') }}" width="640" height="480">
+
+    <form id="options-form">
+        <label><input type="checkbox" name="detect_faces" id="detect_faces"> Detect Faces</label><br>
+        <label><input type="checkbox" name="detect_objects" id="detect_objects"> Detect Objects</label><br>
+        <button type="submit">Update</button>
+    </form>
+
+    <script>
+        const videoElement = document.getElementById('video-feed');
+        const form = document.getElementById('options-form');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const detectFaces = document.getElementById('detect_faces').checked;
+            const detectObjects = document.getElementById('detect_objects').checked;
+
+            const imageUrl = `/video_feed?detect_faces=${detectFaces}&detect_objects=${detectObjects}`;
+            videoElement.src = imageUrl;
+        });
+    </script>
 
     <div class="details">
         Developed by: CHOLLANGI YUVARAJ<br>
